@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{action}} Coupon</ion-title>
+    <ion-buttons *ngIf="!isNew" end>
+      <button ion-button (click)="delete()" icon-only color="danger">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <ion-list inset>
+    <ion-item>
+      <ion-label fixed>Name</ion-label>
+      <ion-input type="text" [(ngModel)]="coupon.name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Num Unit</ion-label>
+      <ion-input type="number" [(ngModel)]="coupon.numUnit"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Start Date</ion-label>
+      <ion-datetime [min]="genMinDate()" [max]="genMaxDate()" [(ngModel)]="startDateStr"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>End Date</ion-label>
+      <ion-datetime [min]="genMinDate()" [max]="genMaxDate()" [(ngModel)]="endDateStr"></ion-datetime>
+    </ion-item>
+  </ion-list>
+  <ion-fab left bottom class="animated bounceInRight">
+    <button ion-fab (click)="save()">Save</button>
+  </ion-fab>
+  <ion-fab right bottom class="animated bounceInLeft">
+    <button ion-fab (click)="dismiss()" color="danger">Cancel</button>
+  </ion-fab>
+</ion-content>

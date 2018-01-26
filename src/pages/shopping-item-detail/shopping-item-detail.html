@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{action}} Item</ion-title>
+    <ion-buttons *ngIf="!isNew" end>
+      <button ion-button (click)="delete()" icon-only>
+        <ion-icon name="trash"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <ion-list inset>
+    <ion-item>
+      <ion-label fixed>Name</ion-label>
+      <ion-input type="text" [(ngModel)]="item.name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Unit Price</ion-label>
+      <ion-input type="number" [(ngModel)]="item.unitPrice"></ion-input>
+    </ion-item>
+    <ion-item (click)="takePhoto(true)">
+      <img src="{{item.imgURI}}" alt="Photo"/>
+    </ion-item>
+  </ion-list>
+  <ion-fab left bottom class="animated bounceInRight">
+    <button ion-fab (click)="save()">Save</button>
+  </ion-fab>
+  <ion-fab right bottom class="animated bounceInLeft">
+    <button ion-fab (click)="dismiss()" color="danger">Cancel</button>
+  </ion-fab>
+</ion-content>

@@ -1,0 +1,41 @@
+<ion-header>
+    <ion-navbar>
+      <ion-title>Total : ${{calcTotalPrice() | number:'1.1-2'}}</ion-title>
+      <ion-buttons end>
+        <button (click)="removeAll()" ion-button icon-only color="danger">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-navbar>
+  </ion-header>
+  <ion-content padding>
+    <ion-card *ngFor="let item of items" (click)="showItemDetail(item)" class="animated bounceInUp">
+      <ion-item>
+        <ion-thumbnail item-left style="position: relative;text-align: center;">
+          <img src="{{item.imgURI}}" alt="Photo" (click)="showImage(item); $event.stopPropagation();"/>
+          <p *ngIf="item.imgURI" style="position: absolute; top: 36%; width: 100%; font-weight: bold; color: white;">{{item.name}}</p>
+          <p *ngIf="!item.imgURI" style="position: absolute; top: 36%; width: 100%; font-weight: bold; color: black;">{{item.name}}</p>
+        </ion-thumbnail>
+        <h2>@ ${{item.unitPrice | number:'1.1-2'}}</h2>
+        <h2>X {{item.numUnit}}</h2>
+        <ion-badge item-right>${{item.unitPrice * item.numUnit | number:'1.1-2'}}</ion-badge>
+      </ion-item>
+      <ion-row no-padding>
+        <ion-col text-left>
+          <button ion-button (click)="addUnit(item); $event.stopPropagation();" small icon-only>
+            <ion-icon name="add-circle"></ion-icon>
+          </button>
+        </ion-col>
+        <ion-col text-right>
+          <button ion-button (click)="decUnit(item); $event.stopPropagation();" small icon-only color="secondary">
+            <ion-icon name="remove-circle"></ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+    <ion-fab left bottom class="animated bounceInRight">
+      <button ion-fab (click)="showItemDetail()" mini>
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-fab>
+  </ion-content>  

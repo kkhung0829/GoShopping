@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{title}}</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="dismiss()" icon-only>
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-scroll
+    scrollX="true" scrollY="true"
+    zoom="true"
+    style="width: 100%; height: 100%">
+    <img src="{{imgURI}}" (click)="dismiss()" />
+  </ion-scroll>  
+</ion-content>

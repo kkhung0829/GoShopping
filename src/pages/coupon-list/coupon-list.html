@@ -1,0 +1,133 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{today | date: 'mediumDate'}}</ion-title>
+    <ion-buttons end>
+      <button (click)="removeAll()" ion-button icon-only color="danger">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <ion-list inset>
+    <!-- Expired Coupon List -->
+    <div *ngIf="couponItems4Expired.length > 0">
+      <ion-item-divider color="danger" class="animated rubberBand">
+        Expired<ion-badge item-right>{{couponItems4Expired.length}}</ion-badge>
+      </ion-item-divider>
+<!--      <ion-card *ngFor="let couponItem of couponItems4Expired" [@flyInOut]="'in'"> -->
+      <ion-card *ngFor="let couponItem of couponItems4Expired" class="animated bounceInUp">
+        <ion-item (click)="showDetail(couponItem.coupon)">
+          <ion-card-title>{{couponItem.coupon.name}}</ion-card-title>
+          <div class="tickerContainer">
+            <div ticker [text]="genExpiryStr(couponItem)" [trigger]="'onClick'" color="primary"></div>
+          </div>
+          <ion-badge item-right>{{couponItem.coupon.numUnit}}</ion-badge>
+          <button ion-button (click)="couponItem.showUsage = !couponItem.showUsage; $event.stopPropagation();" [hidden]="!(couponItem.coupon.usages.length > 0)">
+            <ion-icon [name]="genShowUsageIconName(couponItem)"></ion-icon>Usage History
+          </button>
+        </ion-item>
+        <div *ngFor="let couponUsage of couponItem.coupon.usages">
+          <ion-item [hidden]="!couponItem.showUsage">
+            <p>{{couponUsage.date | date:'short'}}</p>
+            <ion-badge item-right>{{couponUsage.numUnit}}</ion-badge>
+          </ion-item>
+        </div>
+      </ion-card>    
+    </div>
+
+    <!-- Today Coupon List -->
+    <div *ngIf="couponItems4Today.length > 0">
+      <ion-item-divider color="danger" class="animated rubberBand">
+        Expire Today<ion-badge item-right>{{couponItems4Today.length}}</ion-badge>
+      </ion-item-divider>
+<!--      <ion-card *ngFor="let couponItem of couponItems4Today" [@flyInOut]="'in'"> -->
+      <ion-card *ngFor="let couponItem of couponItems4Today" class="animated bounceInUp">
+        <ion-item (click)="showDetail(couponItem.coupon)">
+          <ion-card-title>{{couponItem.coupon.name}}</ion-card-title>
+          <ion-badge item-right>{{couponItem.coupon.numUnit}}</ion-badge>
+          <button ion-button (click)="couponItem.showUsage = !couponItem.showUsage; $event.stopPropagation();" [hidden]="!(couponItem.coupon.usages.length > 0)">
+            <ion-icon [name]="genShowUsageIconName(couponItem)"></ion-icon>Usage History
+          </button>
+          <button ion-button (click)="decUnit(couponItem.coupon); $event.stopPropagation();" icon-only item-right secondary>
+            <ion-icon name="remove-circle"></ion-icon>
+          </button>
+        </ion-item>
+        <div *ngFor="let couponUsage of couponItem.coupon.usages">
+          <ion-item [hidden]="!couponItem.showUsage">
+            <p>{{couponUsage.date | date:'short'}}</p>
+            <ion-badge item-right>{{couponUsage.numUnit}}</ion-badge>
+          </ion-item>
+        </div>
+      </ion-card>    
+    </div>
+
+    <!-- Current Coupon List -->
+    <ion-item-divider color="primary">
+      Current<ion-badge item-right>{{couponItems4Current.length}}</ion-badge>
+    </ion-item-divider>
+<!--    <ion-card div *ngFor="let couponItem of couponItems4Current" [@flyInOut]="'in'"> -->
+    <ion-card div *ngFor="let couponItem of couponItems4Current" class="animated bounceInUp">
+      <ion-item (click)="showDetail(couponItem.coupon)">
+        <ion-card-title>{{couponItem.coupon.name}}</ion-card-title>
+        <div class="tickerContainer">
+          <div ticker [text]="genExpiryStr(couponItem)" [trigger]="'onClick'"></div>
+        </div>
+        <ion-badge item-right>{{couponItem.coupon.numUnit}}</ion-badge>
+        <button ion-button (click)="decUnit(couponItem.coupon); $event.stopPropagation();" icon-only item-right secondary>
+          <ion-icon name="remove-circle"></ion-icon>
+        </button>
+        <button ion-button (click)="couponItem.showUsage = !couponItem.showUsage; $event.stopPropagation();" [hidden]="!(couponItem.coupon.usages.length > 0)">
+          <ion-icon [name]="genShowUsageIconName(couponItem)"></ion-icon>Usage History
+        </button>
+      </ion-item>
+      <div *ngFor="let couponUsage of couponItem.coupon.usages">
+        <ion-item [hidden]="!couponItem.showUsage">
+          <p>{{couponUsage.date | date:'short'}}</p>
+          <ion-badge item-right>{{couponUsage.numUnit}}</ion-badge>
+        </ion-item>
+      </div>
+    </ion-card>
+
+    <!-- Future Coupon List -->
+    <ion-item-divider color="primary">
+      Future<ion-badge item-right>{{couponItems4Future.length}}</ion-badge>
+    </ion-item-divider>
+<!--    <ion-card *ngFor="let couponItem of couponItems4Future" [@flyInOut]="'in'"> -->
+    <ion-card *ngFor="let couponItem of couponItems4Future" class="animated bounceInUp">
+      <ion-item (click)="showDetail(couponItem.coupon)">
+        <ion-card-title>{{couponItem.coupon.name}}</ion-card-title>
+        <div class="tickerContainer">
+          <div ticker [text]="genStartDateStr(couponItem)" [trigger]="'onClick'"></div>
+        </div>
+        <ion-badge item-right>{{couponItem.coupon.numUnit}}</ion-badge>
+      </ion-item>
+    </ion-card>    
+  </ion-list>
+  <ion-fab left bottom class="animated bounceInRight">
+    <button ion-fab (click)="showDetail()" mini>
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+  <ion-fab right bottom #fab_dropbox class="animated bounceInLeft">
+    <button ion-fab color="danger" mini><ion-icon name="logo-dropbox"></ion-icon></button>
+    <ion-fab-list side="top">
+      <button (click)="export(); fab_dropbox.close();" ion-fab color="danger"><ion-icon name="cloud-upload"></ion-icon></button>
+    </ion-fab-list>
+    <ion-fab-list side="left">
+      <button (click)="import(); fab_dropbox.close();" ion-fab color="danger"><ion-icon name="cloud-download"></ion-icon></button>
+    </ion-fab-list>
+  </ion-fab>
+  <ion-fab center bottom #fab_calendar class="animated bounceInDown">
+    <button ion-fab color="secondary" mini><ion-icon name="calendar"></ion-icon></button>
+    <ion-fab-list side="top">
+      <button (click)="openReminders(); fab_calendar.close();" ion-fab color="secondary"><ion-icon name="calendar"></ion-icon></button>
+    </ion-fab-list>
+    <ion-fab-list side="left">
+      <button (click)="removeReminders(); fab_calendar.close();" ion-fab color="secondary"><ion-icon name="trash"></ion-icon></button>
+    </ion-fab-list>
+    <ion-fab-list side="right">
+      <button (click)="refreshReminders(); fab_calendar.close();" ion-fab color="secondary"><ion-icon name="refresh"></ion-icon></button>
+    </ion-fab-list>
+  </ion-fab>
+</ion-content>
