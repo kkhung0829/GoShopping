@@ -5,3 +5,6 @@ It will do online update if new version released.
 Current online update with following feature added :
 1. Calendar reminder for coupon expiry.
 2. Backup and restore coupons to Dropbox.
+
+To build, run:
+ionic cordova prepare
